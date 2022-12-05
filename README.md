@@ -1,4 +1,4 @@
-# QGIS 사용 Tip 및 작업
+# QGIS 사용 Tip 및 작업 내용
 [QGIS 설치]
 
 본 프로젝트에서는 2022.12. 기준 안정화 버전인 **QGIS 3.22.13 Biatowieza**를 사용한다.
@@ -21,7 +21,7 @@ QGIS에서 제공하는 Document를 참고하여 작업을 진행하였다.
     활용신청 링크주소 : http://www.jejuits.go.kr/open_api/open_apiView.do
 
 ***
-[작업 내용]
+### [Open API DATA를 이용한 QGIS작업 내용]
 
 QGIS 실행 후, 기본 화면에서 수집한 제주시 경계도면 SHP 파일을 불러온다. 
 
@@ -93,4 +93,19 @@ df.to_csv('C:/Deok/Jeju_parkinglot.csv', header=True, index=False)
 
 ![레이어추가](./img/screenshot6.png)
 
-  
+VWorldStreet 레이어를 사용한 화면은 다음과 같다.
+
+![vworld](./img/screenshot7.png)
+
+***
+### [csv파일 데이터를 이용한 작업 내용]
+
+수집한 csv데이터를 활용해 QGIS 상태 툴바에서 '레이어'->'레이어 추가'->'구분자로 분리된 텍스트 레이어 추가' 단축키 Ctrl + Shift + T를 클릭해 QGIS상에 추가한다.
+
+![제주,서귀포시](./img/screenshot8.png)
+
+제주시와 서귀포시에 있는 주차장이 표시된 것을 확인할 수 있다.
+
+![vworld](./img/screenshot9.png)
+
+VWorldStreet 레이어를 사용한 화면은 다음과 같다.
