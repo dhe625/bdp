@@ -7,18 +7,18 @@
 
 QGIS에서 제공하는 Document를 참고하여 작업을 진행하였다.
 
-  공식문서 : <https://docs.qgis.org/3.22/en/docs/training_manual/index.html>
+공식문서 : <https://docs.qgis.org/3.22/en/docs/training_manual/index.html>
   
 ***
 [데이터 수집]
 
 국가교통부 국가공간정보포털 오픈마켓 - 행정구역시군구 경계도면 SHP파일 
 
-    링크주소 : http://data.nsdi.go.kr/dataset/15144
+링크주소 : <http://data.nsdi.go.kr/dataset/15144>
       
 공공데이터포털 -  제주특별자치도_주차장기본정보 오픈API 데이터 
 
-    활용신청 링크주소 : http://www.jejuits.go.kr/open_api/open_apiView.do
+활용신청 링크주소 : <http://www.jejuits.go.kr/open_api/open_apiView.do>
 
 ***
 ### [Open API DATA를 이용한 QGIS작업 내용]
@@ -47,7 +47,7 @@ URL에 주소를 담아 GET방식으로 데이터 호출 후에 결과값을 JSO
 
 ```python
 #제주도내 주차장 기본정보 API를 받아온다.
-url = "http://api.jejuits.go.kr/api/infoParkingInfoList?code=860538"
+url = "http://api.jejuits.go.kr/api/infoParkingInfoList?code=******"
 json_obj = requests.get(url).json()
 json_obj
 ```
@@ -106,6 +106,8 @@ VWorldStreet 레이어를 사용한 화면은 다음과 같다.
 
 제주시와 서귀포시에 있는 주차장이 표시된 것을 확인할 수 있다.
 
-![vworld](./img/screenshot9.png)
 
 VWorldStreet 레이어를 사용한 화면은 다음과 같다.
+
+![vworld](./img/screenshot9.png)
+
