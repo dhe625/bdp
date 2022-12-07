@@ -2,7 +2,7 @@
 import requests
 import pandas as pd
 #제주도내 주차장 기본정보 API를 받아온다.
-url = "http://api.jejuits.go.kr/api/infoParkingInfoList?code=860538"
+url = "http://api.jejuits.go.kr/api/infoParkingInfoList?code=******"
 json_obj = requests.get(url).json()
 json_obj
 #list를 만들어 데이터프레임화 하고 head를 찍어보았다.
