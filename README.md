@@ -20,6 +20,10 @@ QGIS에서 제공하는 Document를 참고하여 작업을 진행하였다.
 
 활용신청 링크주소 : <http://www.jejuits.go.kr/open_api/open_apiView.do>
 
+공공데이터포털 - 전국주차장정보표준데이터
+
+링크주소 : <https://www.data.go.kr/tcs/dss/selectStdDataDetailView.do>
+
 ***
 ### [Open API DATA를 이용한 QGIS작업 내용]
 
