@@ -22,7 +22,9 @@ if __name__ == "__main__":
 	
 	df = unionAll([df1, df2, df3, df4, df5, df6, df7, df8, df9, df10, df11, df12])
 
-	df = df.filter(F.hour(F.col("time")) >= 12).show()
-"""
-	df.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("hdfs:///user/maria_dev/projectData/afternoon_data.csv")
-"""
+	morning = df.filter(F.hour(F.col("time")) < 12).show()
+	afternoon = df.filter(F.hour(F.col("time")) >= 12).show()
+	
+	morning.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("hdfs:///user/maria_dev/projectData/morning_data.    csv")
+	afternoon.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("hdfs:///user/maria_dev/projectData/afternoon_data.csv")
+
