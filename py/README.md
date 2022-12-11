@@ -9,74 +9,33 @@ unionAll 함수를 정의하여 각 월의 데이터를 하나로 통합하였�
 
 각각 DataFrame을 CSV로 변환하여 hdfs에 저장하였다.
 
-<img width="1329" alt="스크린샷 2022-12-10 오후 6 01 48" src="https://user-images.githubusercontent.com/100830963/206842717-4401091a-b2e1-43f2-9cb7-77b8196bdbe9.png">
+<img width="1371" alt="스크린샷 2022-12-11 오전 11 21 26" src="https://user-images.githubusercontent.com/100830963/206883500-f1e42747-9859-4dc3-87c0-c40a6cf4337e.png">
 
 Pyspark를 이용하는 코드를 작성하였다.
 
 K-means clustering을 이용했다.
 
-위에서 저장된 morning csv를 기준으로 필요한 attribute인 'latitude'와 'longitude'만 추출하여 vector로 변환했다.
+위에서 저장된 morning CSV를 기준으로 필요한 attribute인 'latitude'와 'longitude'만 추출하여 vector로 변환했다.
 
 cluster를 나타내는 'features' attribute가 생성된다.
 
 이상치 탐지를 위해 10개의 centroids를 만들었다.
 
-위 csv에서 10개의 cluster을 찾을 수 있도록 적용했다.
+위 CSV에서 10개의 cluster을 찾을 수 있도록 적용했다.
 
-각 군집별로 추출하여 CSV로 변환하여 hdfs에 저장하였다.
+<img width="573" alt="스크린샷 2022-12-11 오전 11 03 12" src="https://user-images.githubusercontent.com/100830963/206883575-bcdc22fa-582c-4539-8a01-bde882eee035.png">
 
-참고 사이트 : https://stackoverflow.com/questions/47585723/kmeans-clustering-in-pyspark
+cluster가 잘 형성되었는지 평가하기 위해 silhouette 계수를 사용하여 측정하였다.
 
+<img width="1376" alt="스크린샷 2022-12-11 오전 11 22 00" src="https://user-images.githubusercontent.com/100830963/206883621-6dcd29b0-9c85-44e3-a566-ca23aa6502af.png">
 
+만들어진 centroids를 DataFrame으로 만들고 CSV로 변환하여 hdfs에 저장하였다.
 
+각 cluster 별로 추출하여 CSV로 변환하여 hdfs에 저장하였다.
 
-from pyspark.ml.clustering import KMeans
-from pyspark.sql import SparkSession
-from pyspark.ml.feature import VectorAssembler
-from pyspark.ml.evaluation import ClusteringEvaluator
+afternoon 역시 같은 작업을 수행한다.
 
-if __name__ == "__main__":
-	spark = SparkSession.builder.appName("kmeans").getOrCreate()
-	df = spark.read.load("hdfs:///user/maria_dev/projectData/morning_data/part-00000-74d3359d-c0b9-495b-b498-95a102618c7c-c000.csv", format="csv", sep=",", inferSchema="true", header="true")
-	
-	vecAssembler = VectorAssembler(inputCols=["latitude", "longitude"], outputCol="features")
-	new_df = vecAssembler.transform(df)
-	
-	kmeans = KMeans(k=10, seed=1)
-	model = kmeans.fit(new_df.select('features'))
+[ 참고 사이트 ]
 
-	transformed = model.transform(new_df)
-	
-	print("Clusters of morning")
-	
-	evaluator = ClusteringEvaluator()                                                                            
-	silhouette = evaluator.evaluate(transformed)
-	print("Silhouette with squared euclidean distance = " + str(silhouette))
-
-	centers = model.clusterCenters()
-	
-	sc = spark.sparkContext
-	centroids = sc.parallelize(centers).map(lambda x: [float(i) for i in x]).toDF(["latitude", "longitude"])
-	centroids.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("hdfs:///user/maria_dev/projectData/clusterCentroids_morning")
-	
-	result1 = transformed.filter("prediction == 1").select('longitude','latitude')
-	result2 = transformed.filter("prediction == 2").select('longitude','latitude')
-	result3 = transformed.filter("prediction == 3").select('longitude','latitude')
-	result4 = transformed.filter("prediction == 4").select('longitude','latitude')
-	result5 = transformed.filter("prediction == 5").select('longitude','latitude')
-	result6 = transformed.filter("prediction == 6").select('longitude','latitude')
-	result7 = transformed.filter("prediction == 7").select('longitude','latitude')
-	result8 = transformed.filter("prediction == 8").select('longitude','latitude')
-	result9 = transformed.filter("prediction == 9").select('longitude','latitude')
-	result0 = transformed.filter("prediction == 0").select('longitude','latitude')
-	
-	result1.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("hdfs:///user/maria_dev/projectData/1_morning")
-	result2.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("hdfs:///user/maria_dev/projectData/2_morning")
-	result3.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("hdfs:///user/maria_dev/projectData/3_morning")
-	result4.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("hdfs:///user/maria_dev/projectData/4_morning")
-	result5.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("hdfs:///user/maria_dev/projectData/5_morning")
-	result6.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("hdfs:///user/maria_dev/projectData/6_morning")
-	result7.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("hdfs:///user/maria_dev/projectData/7_morning")
-	result8.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("hdfs:///user/maria_dev/projectData/8_morning")
-	result9.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("hdfs:///user/maria_dev/projectData/9_morning")
-	result0.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("hdfs:///user/maria_dev/projectData/0_morning")
+1. https://stackoverflow.com/questions/47585723/kmeans-clustering-in-pyspark
+2. https://stackoverflow.com/questions/64563540/how-do-i-convert-a-numpy-array-to-a-pyspark-dataframe
