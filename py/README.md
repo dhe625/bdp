@@ -24,3 +24,5 @@ cluster를 나타내는 'features' attribute가 생성된다.
 위 csv에서 10개의 cluster을 찾을 수 있도록 적용했다.
 
 각 군집별로 추출하여 CSV로 변환하여 hdfs에 저장하였다.
+
+참고 사이트 : https://stackoverflow.com/questions/47585723/kmeans-clustering-in-pyspark
