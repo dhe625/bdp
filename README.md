@@ -255,3 +255,14 @@ num   longitude   latitude
 ![num](./img/cc2.png)
 ![num](./img/cc3.png)
 ![num](./img/cc4.png)
+
+오후 데이터의 중심값 역시 같은 방법으로 표시하였다.
+
+![centroids](./img/c3.png)
+
+해당하는 위치에 대응하는 곳을 VWorld Satelite 레이어를 활용해 위성사진으로 확인한 결과는 다음과 같다.
+
+![num](./img/cc5.png)
+![num](./img/cc6.png)
+![num](./img/cc7.png)
+![num](./img/cc8.png)
