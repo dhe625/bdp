@@ -1,6 +1,7 @@
 from pyspark.ml.clustering import KMeans
 from pyspark.sql import SparkSession
 from pyspark.ml.feature import VectorAssembler
+from pyspark.ml.evaluation import ClusteringEvaluator
 
 if __name__ == "__main__":
 	spark = SparkSession.builder.appName("kmeans").getOrCreate()
@@ -13,6 +14,18 @@ if __name__ == "__main__":
 	model = kmeans.fit(new_df.select('features'))
 
 	transformed = model.transform(new_df)
+	
+	print("Clusters of morning")
+	
+	evaluator = ClusteringEvaluator()                                                                            
+	silhouette = evaluator.evaluate(transformed)
+	print("Silhouette with squared euclidean distance = " + str(silhouette))
+
+	centers = model.clusterCenters()
+	
+	sc = spark.sparkContext
+	centroids = sc.parallelize(centers).map(lambda x: [float(i) for i in x]).toDF(["latitude", "longitude"])
+	centroids.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("hdfs:///user/maria_dev/projectData/clusterCentroids_morning")
 	
 	result1 = transformed.filter("prediction == 1").select('longitude','latitude')
 	result2 = transformed.filter("prediction == 2").select('longitude','latitude')
@@ -35,4 +48,3 @@ if __name__ == "__main__":
 	result8.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("hdfs:///user/maria_dev/projectData/8_morning")
 	result9.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("hdfs:///user/maria_dev/projectData/9_morning")
 	result0.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("hdfs:///user/maria_dev/projectData/0_morning")
-	
