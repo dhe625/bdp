@@ -40,7 +40,6 @@ clustered data를 출력한다.
 
 <img width="958" alt="clustered_afternoon" src="https://user-images.githubusercontent.com/100830963/206904118-2360419a-67ce-485b-bf6f-78582a7f9153.png">
 
-
 각 cluster 별로 추출하여 CSV로 변환하여 hdfs에 저장한다.
 
 morning CSV 역시 같은 작업을 수행한다.
